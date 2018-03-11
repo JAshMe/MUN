@@ -42,39 +42,87 @@ else
 <html xmlns="http://www.w3.org/1999/html">
     <head>
         <title>Transaction Verdict</title>
+        <style>
+            #table {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 50%;
+                margin-left: 25%;
+            }
+
+            #table td, #table th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            #table tr:nth-child(even){background-color: #f2f2f2;text-align: center;}
+
+
+            #table tr:hover {background-color: #ddd;}
+
+            #table th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #29afbb;
+                color: white;
+            }
+            h3{
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #29afbb;
+                color: white;
+            }
+            #button{
+                padding: 12px;
+                margin: 15px;
+                color: white;
+                background-color: #ff331d;
+                border-radius: 5px;
+                border: none;
+                text-decoration: none;
+                margin-left: 45%;
+                width: 10%;
+            }
+            #button:hover{
+                background-color: #29afbb;
+            }
+        </style>
     </head>
     <body>
-        <table>
+        <table id="table">
             <tr>
                 <td>Status:</td>
                 <td><?= $data['status']?></td>
 </tr>
 <tr>
-    <td>First Name:</td>
+    <td><b>First Name</b></td>
     <td><?= $data['firstname']?></td>
 </tr>
 <tr>
-    <td><strong>Reference  ID:</strong></td>
+    <td><strong>Reference  ID</strong></td>
     <td><?= $data['txnid']?></td>
 </tr>
 <tr>
-    <td>Purpose:</td>
+    <td><b>Purpose</b></td>
     <td><?= $data['productinfo']?></td>
 </tr>
 <tr>
-    <td>Amount:</td>
+    <td><b>Amount</b></td>
     <td><?= $data['amount']?></td>
 </tr>
 <tr>
-    <td>Email:</td>
+    <td><b>Email</b></td>
     <td><?= $data['email']?></td>
 </tr>
 <tr>
-    <td>Mobile Number:</td>
+    <td><b>Mobile Number</b></td>
     <td><?= $data['phone']?></td>
 </tr>
 </table>
-<a href="../index.html">Back to homepage</a>
+<a href="../index.html" id="button">Back to homepage</a>
 </body>
 
 </html>

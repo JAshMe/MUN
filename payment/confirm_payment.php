@@ -32,6 +32,9 @@ if($_SERVER['REQUEST_METHOD']=="POST")
 
             // validate
 
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                die("Invalid email . Please enter valid e-mail.");
+            }
             if($amount!="1200" && $amount!="1500")
             {
                     die("Sorry Amount Not Proper. Please try again.");
@@ -49,7 +52,8 @@ if($_SERVER['REQUEST_METHOD']=="POST")
             $stmt = $db->select_query($checkQuery,$params);
             if($stmt->rowCount()>0) //user already exists
             {
-                    //throw error and redirect
+                echo '<script>alert("This e-mail or phone number is already registered!!!!");';
+                echo 'window.location= "index.html";</script>';
             }
 
             //if user doesn't exist then note its info
@@ -79,15 +83,64 @@ else
 <head>
     <title>Make Payment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+    <style>
+        #table {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+            left: 25%;
+        }
+
+        #table td, #table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        #table tr:nth-child(even){background-color: #f2f2f2;text-align: center;}
+
+        #table tr:hover {background-color: #ddd;}
+
+        #table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #29afbb;
+            color: white;
+        }
+        h3{
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #29afbb;
+            color: white;
+        }
+        #paybutton{
+            padding: 12px;
+            margin: 5px;
+            color: white;
+            background-color: #ff331d;
+            border-radius: 5px;
+        }
+        #paybutton:hover{
+            background-color: #29afbb;
+        }
+    </style>
+
 </head>
 <body>
 <div align="center">
-    <label>Transaction ID : </label><span><?= $txnid ?></span><br>
-    <label>First Name : </label><span><?= $firstname ?></span><br>
-    <label>Amount: </label><span><?= $amount ?></span><br>
-    <label>Email: </label><span><?= $email ?></span><br>
-    <label>Phone: </label><span><?= $phone ?></span><br>
-    <label>Purpose: </label><span><?= $product_info?></span><br>
+    <h3><b>Please note the transaction ID for future reference.</b></h3>
+    <table style="left: 25%;width: 50%;" id="table">
+        <tr><th><b>Transaction ID</b></th>  <th><b><?= $txnid ?></b></th></tr>
+        <tr><td><b>First Name</b></td><td> <?= $firstname ?></td></tr>
+        <tr><td><b>Amount</b></td><td> <?= $amount ?></td></tr>
+        <tr><td><b>Email</b></td><td> <?= $email ?></td></tr>
+        <tr><td><b>Phone</b></td><td> <?= $phone ?></td></tr>
+        <tr><td><b>Purpose</b></td><td><?= $product_info?></td></tr>
+
+    </table>
+
     <form method="post" action="payment_backend.php">
         <input type="hidden" name="txnid" value="<?= $txnid ?>">
         <input type="hidden" name="fname" value="<?= $firstname ?>">
@@ -95,7 +148,7 @@ else
         <input type="hidden" name="email" value="<?=$email ?>">
         <input type="hidden" name="phone" value="<?= $phone ?>">
         <input type="hidden" name="product_info" value="<?= $product_info?>">
-        <button type="submit" name="Pay" value="Pay">Pay</button><br>
+        <button type="submit" name="Pay" value="Pay" id="paybutton">Pay</button><br>
     </form>
 
 </div>

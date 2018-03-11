@@ -13,6 +13,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     $KEY = "6Qfm5exu";
     $SALT = "JcShuxWUzy";
     $hash ='';
+    $verdict = '';
     if(isset($_POST['hash']))
     {
 
@@ -54,10 +55,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                 $prepared  = "update transac_details set trans_no=?,status=?,amount=?,mode=?,bank_code=? where Ref_no=? and email=?";
                 $params = array($data['payuMoneyId'],$data['status'],$data['amount'],$data['mode'],$data['bankcode'],$data['txnid'],$data['email']);
                 $db->ins_del_query($prepared,$params);
+                $verdict="SUCCESS";
 
-
-
-                echo "<h2>SUCCESS</h2><br>";
         }
         else
            die("Something went wrong. Please try again.<br><a href='apply.php'>Back to Home Page</a> ");
@@ -72,44 +71,146 @@ else
 <html xmlns="http://www.w3.org/1999/html">
     <head>
         <title>Transaction Verdict</title>
+        <style>
+            #table {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 50%;
+                margin-left: 25%;
+            }
+
+            #table td, #table th {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            #table tr:nth-child(even){background-color: #f2f2f2;text-align: center;}
+
+
+            #table tr:hover {background-color: #ddd;}
+
+            #table th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #29afbb;
+                color: white;
+            }
+            h3{
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #29afbb;
+                color: white;
+            }
+            #button,#button1{
+                padding: 12px;
+                margin: 15px;
+                color: white;
+                background-color: #ff331d;
+                border-radius: 5px;
+                border: none;
+                text-decoration: none;
+                margin-left: 45%;
+                width: 10%;
+            }
+            #button:hover,#button1:hover{
+                background-color: #29afbb;
+            }
+        </style>
+
     </head>
     <body>
-        <table>
+    <h2 style='text-align: center;width: 100%;border: solid 2px green;color: #1e7e34;background-color: #c4e3f3;margin-bottom: 0px;'><?= $verdict ?></h2>";
+        <h3 style="margin-top: 10px;">Please get a print of this receipt.</h3>
+        <div id="printdiv">
+        <table id="table">
             <tr>
-                <td>Status:</td>
-                <td><?= $data['status']?></td>
-            </tr>            <tr>
-                <td>First Name:</td>
+                <td><b>Status</b></td>
+                <td style="text-transform: uppercase;"><?= $data['status']?></td>
+            </tr>
+            <tr>
+                <td><b>First Name</b></td>
                 <td><?= $data['firstname']?></td>
             </tr>
             <tr>
-                <td><strong>Reference ID:</strong></td>
-                <td><?= $data['txnid']?></td>
+                <td><strong>Reference ID</strong></td>
+                <td><b><?= $data['txnid']?></b></td>
             </tr>
             <tr>
-                <td><strong>Transaction ID:</strong></td>
-                <td><?= $data['payuMoneyId']?></td>
+                <td><strong>Transaction ID</strong></td>
+                <td><b><?= $data['payuMoneyId']?></b></td>
             </tr>
             <tr>
-                <td>Purpose:</td>
+                <td><b>Purpose</b></td>
                 <td><?= $data['productinfo']?></td>
             </tr>
             <tr>
-                <td>Amount:</td>
+                <td><b>Amount</b></td>
                 <td><?= $data['amount']?></td>
             </tr>
             <tr>
-                <td>Email:</td>
+                <td><b>Email</b></td>
                 <td><?= $data['email']?></td>
             </tr>
             <tr>
-                <td>Mobile Number:</td>
+                <td><b>Mobile Number</b></td>
                 <td><?= $data['phone']?></td>
             </tr>
         </table>
         <br>
         <br>
-        <a href="../index.html">Back to homepage</a>
+        </div>
+        <a href="../index.html" id="button" style="font-size: medium;">Back to homepage</a>
+        <button id="button1" style="font-size: medium;margin-left: 46%;" onclick="printElem()">Print</button>
     </body>
 
 </html>
+
+<script>
+    function printElem() {
+        var content = document.getElementById("printdiv").innerHTML;
+        var mywindow = window.open('', 'Print', 'height=1080,width=1920');
+
+        var style = "<style> \
+                        #table { \
+                            font-family: \"Trebuchet MS\", Arial, Helvetica, sans-serif; \
+                            border-collapse: collapse; \
+                            width: 50%; \
+                            margin-left: 25%; \
+                        } \
+                        #table td, #table th { \
+                            border: 1px solid #ddd; \
+                            padding: 8px; \
+                            text-align: center; \
+                        } \
+ \
+                        #table tr:nth-child(even){background-color: #f2f2f2;text-align: center;} \
+ \
+                        #table tr:hover {background-color: #ddd;} \
+ \
+                        #table th { \
+                            padding-top: 12px; \
+                            padding-bottom: 12px; \
+                            text-align: center; \
+                            background-color: #29afbb; \
+                            color: white;} \
+ \
+ \
+            </style> ";
+
+        mywindow.document.write('<html><head><title>Reciept</title>');
+        mywindow.document.write(style);
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(content);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close();
+        mywindow.focus()
+        mywindow.print();
+        mywindow.close();
+        return true;
+    }
+
+</script>
