@@ -13,6 +13,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     $KEY = "6Qfm5exu";
     $SALT = "JcShuxWUzy";
     $hash ='';
+    $verdict = '';
     if(isset($_POST['hash']))
     {
 
@@ -54,10 +55,14 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                 $prepared  = "update transac_details set trans_no=?,status=?,amount=?,mode=?,bank_code=? where Ref_no=? and email=?";
                 $params = array($data['payuMoneyId'],$data['status'],$data['amount'],$data['mode'],$data['bankcode'],$data['txnid'],$data['email']);
                 $db->ins_del_query($prepared,$params);
+                $verdict="SUCCESS";
 
+<<<<<<< HEAD
+=======
 
 
                 echo "<h2 style='text-align: center;width: 100%;border: solid 2px green;color: #1e7e34;background-color: #c4e3f3;'>SUCCESS</h2><br>";
+>>>>>>> 5399ff636303e2a3228ded300dff2fc434525b9b
         }
         else
            die("Something went wrong. Please try again.<br><a href='apply.php'>Back to Home Page</a> ");
@@ -123,13 +128,23 @@ else
 
     </head>
     <body>
+<<<<<<< HEAD
+    <h2 style='text-align: center;width: 100%;border: solid 2px green;color: #1e7e34;background-color: #c4e3f3;margin-bottom: 0px;'><?= $verdict ?></h2>";
+        <h3 style="margin-top: 10px;">Please get a print of this receipt.</h3>
+=======
         <h3 style="margin-top: 10px;">Please get a print of this reciept.</h3>
+>>>>>>> 5399ff636303e2a3228ded300dff2fc434525b9b
         <div id="printdiv">
         <table id="table">
             <tr>
                 <td><b>Status</b></td>
                 <td style="text-transform: uppercase;"><?= $data['status']?></td>
+<<<<<<< HEAD
+            </tr>
+            <tr>
+=======
             </tr>            <tr>
+>>>>>>> 5399ff636303e2a3228ded300dff2fc434525b9b
                 <td><b>First Name</b></td>
                 <td><?= $data['firstname']?></td>
             </tr>

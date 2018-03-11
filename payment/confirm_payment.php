@@ -52,8 +52,13 @@ if($_SERVER['REQUEST_METHOD']=="POST")
             $stmt = $db->select_query($checkQuery,$params);
             if($stmt->rowCount()>0) //user already exists
             {
+<<<<<<< HEAD
+                echo '<script>alert("This e-mail or phone number is already registered!!!!");';
+                echo 'window.location= "index.html";</script>';
+=======
                 echo '<script>alert("This e-mail or phone number is already registered!!!!")';
                 echo 'window.location= "index.html"</script>';
+>>>>>>> 5399ff636303e2a3228ded300dff2fc434525b9b
             }
 
             //if user doesn't exist then note its info
